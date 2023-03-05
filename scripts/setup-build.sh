@@ -1,8 +1,8 @@
 #!/bin/bash
 
 usage () {
-        echo "usage:  setup-build.sh <build folder name>"
-	echo "Example: setup-build.sh rpi3-build"
+        echo "usage: source setup-build.sh <build folder name>"
+	echo "Example: source setup-build.sh rpi3-build"
 }
 
 SRCDIR="$(pwd)"
@@ -17,15 +17,15 @@ bn=$1
 
 if [ ! -d "$bn" ]
 then
-   source sources/est-yocto/oe-init-build-env $bn
+   source sources/bayrouni-yocto/oe-init-build-env $bn
    cat <<EOF >> conf/local.conf
 
-MACHINE = \"raspberrypi3\"
-DL_DIR ?= \"/work/downloads\"
-SSTATE_DIR ?= \"/work/sstate-cache/bsp-raspberrypi\"
+MACHINE = "raspberrypi3"
+DL_DIR ?= "/work/downloads"
+SSTATE_DIR ?= "/work/sstate-cache/bsp-raspberrypi"
 
 EOF
-   cp ../sources/est-yocto/build.sh .
+   cp ../sources/bayrouni-yocto/build.sh .
    cat <<EOF >> conf/bblayers.conf
 
 BBLAYERS += " \\
@@ -40,9 +40,8 @@ ${SRCDIR}/sources/meta-mingw \\
 ${SRCDIR}/sources/meta-qt5 \\
 ${SRCDIR}/sources/meta-qt5-extra \\
 ${SRCDIR}/sources/meta-boot2qt/meta-boot2qt \\
-${SRCDIR}sources/meta-boot2qt/meta-boot2qt-distro \\
-
- "
+${SRCDIR}/sources/meta-boot2qt/meta-boot2qt-distro \\
+"
 EOF
 else
    cd $bn
